@@ -529,7 +529,7 @@
             html += '<div class="letter-grid">';
             items.forEach(item => {
                 html += `
-                    <div class="letter-card" onclick="speak('${item.t}')">
+                    <div class="letter-card" onclick="speak('${item.c}', '${currentLang}')">
                         <span class="play-hint">🔊</span>
                         <div class="char">${item.c}</div>
                         <div class="translit">${item.t}</div>
@@ -639,7 +639,7 @@
                         <span>Question ${index + 1} / ${Math.min(pool.length, 15)}</span>
                         <span class="quiz-score">Score: ${quizState.score}</span>
                     </div>
-                    <div class="quiz-char">${item.c}</div>
+                    <div class="quiz-char" title="Click to hear pronunciation" style="cursor:pointer;" onclick="speak('${item.c}', '${currentLang}')">${item.c}</div>
                     <div class="quiz-question">What is the English pronunciation?</div>
                     <div class="quiz-options">
                         ${options.map(o => `<button class="quiz-opt" data-t="${o.t}" onclick="answer('${o.t}', '${item.t}')">${o.t}</button>`).join('')}
@@ -698,14 +698,29 @@
         }
 
         // ============ SPEECH ============
-        function speak(text) {
-            if ('speechSynthesis' in window) {
-                const u = new SpeechSynthesisUtterance(text);
-                u.lang = 'en-US';
-                u.rate = 0.8;
-                window.speechSynthesis.cancel();
-                window.speechSynthesis.speak(u);
-            }
+        let cachedVoices = [];
+        function loadVoices() {
+            cachedVoices = window.speechSynthesis.getVoices();
+        }
+        if ('speechSynthesis' in window) {
+            loadVoices();
+            window.speechSynthesis.onvoiceschanged = loadVoices;
+        }
+
+        function speak(text, lang) {
+            if (!('speechSynthesis' in window)) return;
+            // Speak the ACTUAL native script character so the engine
+            // pronounces the real alphabet, not the English spelling.
+            const langCode = lang === 'tamil' ? 'ta-IN' : 'hi-IN';
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = langCode;
+            u.rate = 0.75;
+            // Prefer a voice that natively speaks the language
+            const voice = cachedVoices.find(v => v.lang === langCode)
+                || cachedVoices.find(v => v.lang && v.lang.startsWith(lang === 'tamil' ? 'ta' : 'hi'));
+            if (voice) u.voice = voice;
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(u);
         }
 
         // ============ INIT ============
