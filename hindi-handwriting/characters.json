@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "1.0",
+  "language": "hi",
+  "description": "Normalized reference database for Hindi handwriting evaluation. Coordinates are 0..1 (top-left origin) so they scale to any screen. The in-browser evaluator uses the rendered glyph as the universal reference (works for every character); these curated stroke vectors power the stroke-order / direction feedback and Trace tolerance where provided.",
+  "defaultTolerance": 0.10,
+  "characters": [
+    {
+      "character": "क",
+      "name": "ka",
+      "example": "क से कमल",
+      "strokeCount": 3,
+      "referenceStrokes": [
+        [ { "x": 0.20, "y": 0.15 }, { "x": 0.45, "y": 0.15 } ],
+        [ { "x": 0.45, "y": 0.15 }, { "x": 0.45, "y": 0.70 }, { "x": 0.30, "y": 0.85 } ],
+        [ { "x": 0.55, "y": 0.45 }, { "x": 0.80, "y": 0.45 } ]
+      ],
+      "acceptedStrokeOrders": [ [0, 1, 2] ],
+      "tolerance": 0.12
+    },
+    {
+      "character": "अ",
+      "name": "a",
+      "example": "अ से अनार",
+      "strokeCount": 3,
+      "referenceStrokes": [
+        [ { "x": 0.30, "y": 0.20 }, { "x": 0.30, "y": 0.55 } ],
+        [ { "x": 0.30, "y": 0.55 }, { "x": 0.20, "y": 0.80 } ],
+        [ { "x": 0.30, "y": 0.55 }, { "x": 0.50, "y": 0.80 } ]
+      ],
+      "acceptedStrokeOrders": [ [0, 1, 2] ],
+      "tolerance": 0.12
+    },
+    {
+      "character": "आ",
+      "name": "aa",
+      "example": "आ से आम",
+      "strokeCount": 4,
+      "referenceStrokes": [
+        [ { "x": 0.28, "y": 0.18 }, { "x": 0.28, "y": 0.52 } ],
+        [ { "x": 0.28, "y": 0.52 }, { "x": 0.18, "y": 0.78 } ],
+        [ { "x": 0.28, "y": 0.52 }, { "x": 0.48, "y": 0.78 } ],
+        [ { "x": 0.55, "y": 0.30 }, { "x": 0.55, "y": 0.82 } ]
+      ],
+      "acceptedStrokeOrders": [ [0, 1, 2, 3] ],
+      "tolerance": 0.12
+    },
+    {
+      "character": "इ",
+      "name": "i",
+      "example": "इ से इमली",
+      "strokeCount": 2,
+      "referenceStrokes": [
+        [ { "x": 0.40, "y": 0.20 }, { "x": 0.40, "y": 0.80 } ],
+        [ { "x": 0.52, "y": 0.30 }, { "x": 0.52, "y": 0.80 } ]
+      ],
+      "acceptedStrokeOrders": [ [0, 1] ],
+      "tolerance": 0.12
+    },
+    {
+      "character": "का",
+      "name": "kaa",
+      "example": "का से काम",
+      "strokeCount": 4,
+      "referenceStrokes": [
+        [ { "x": 0.18, "y": 0.15 }, { "x": 0.40, "y": 0.15 } ],
+        [ { "x": 0.40, "y": 0.15 }, { "x": 0.40, "y": 0.65 }, { "x": 0.28, "y": 0.80 } ],
+        [ { "x": 0.50, "y": 0.42 }, { "x": 0.72, "y": 0.42 } ],
+        [ { "x": 0.80, "y": 0.30 }, { "x": 0.80, "y": 0.30 } ]
+      ],
+      "acceptedStrokeOrders": [ [0, 1, 2, 3] ],
+      "tolerance": 0.12
+    }
+  ]
+}
