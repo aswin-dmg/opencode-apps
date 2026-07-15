@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BhashaLab — Learn Tamil & Hindi</title>
+    <title>BhashaLab — Learn, Play, Grow</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -323,10 +323,94 @@
             font-style: italic;
         }
 
+        /* Subject tabs (top-level) */
+        .subject-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin: 24px 0 10px;
+            flex-wrap: wrap;
+        }
+        .subject-btn {
+            padding: 14px 26px;
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 1.05rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        .subject-btn:hover { border-color: var(--secondary); color: var(--text); transform: translateY(-2px); }
+        .subject-btn.active {
+            background: linear-gradient(135deg, var(--secondary), #4f8049);
+            border-color: var(--secondary);
+            color: #fff;
+        }
+
+        /* Math lab */
+        .math-hud {
+            display: flex;
+            justify-content: center;
+            gap: 22px;
+            margin: 10px 0 14px;
+            flex-wrap: wrap;
+        }
+        .hud-item { font-size: 1rem; color: var(--muted); }
+        .hud-item b { color: var(--primary-light); font-size: 1.2rem; }
+        .progress-wrap {
+            max-width: 500px; margin: 0 auto 18px;
+            height: 12px; background: rgba(244,234,216,0.08);
+            border-radius: 8px; overflow: hidden; border: 1px solid var(--border);
+        }
+        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary), var(--secondary)); transition: width 0.4s ease; }
+        .math-levels, .math-ops { display: flex; justify-content: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+        .math-btn {
+            padding: 9px 18px; background: var(--card); border: 1px solid var(--border);
+            border-radius: 10px; color: var(--muted); cursor: pointer; font-size: 0.95rem;
+            font-family: inherit; transition: all 0.2s ease;
+        }
+        .math-btn:hover { border-color: var(--primary); color: var(--text); }
+        .math-btn.active { background: rgba(217,140,63,0.18); border-color: var(--primary); color: var(--primary-light); }
+        .math-question-card {
+            background: var(--card); border: 2px solid var(--border); border-radius: 18px;
+            padding: 34px 24px; text-align: center; max-width: 520px; margin: 0 auto;
+        }
+        .math-q { font-size: 3rem; color: var(--ink); margin-bottom: 22px; font-weight: 800; letter-spacing: 2px; }
+        .math-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .math-opt {
+            padding: 18px; background: rgba(244,234,216,0.06); border: 1px solid var(--border);
+            border-radius: 12px; color: var(--text); cursor: pointer; font-size: 1.4rem; font-weight: 700;
+            font-family: inherit; transition: all 0.2s ease;
+        }
+        .math-opt:hover { background: rgba(217,140,63,0.15); border-color: var(--primary); }
+        .math-opt.correct { background: rgba(107,163,104,0.35); border-color: var(--secondary); color: var(--secondary-light); }
+        .math-opt.wrong { background: rgba(196,88,79,0.35); border-color: var(--accent); color: #f0a8a2; }
+        .math-feedback { margin-top: 18px; font-size: 1.1rem; min-height: 1.4em; font-weight: 600; }
+        .math-feedback.good { color: var(--secondary-light); }
+        .math-feedback.bad { color: #f0a8a2; }
+        .math-complete { text-align: center; padding: 10px; }
+        .math-complete .big { font-size: 2.4rem; color: var(--primary-light); margin: 16px 0; }
+
+        /* EVS */
+        .evs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+        .evs-card {
+            background: var(--paper); color: #2a1f15; border-radius: 14px; padding: 20px 12px;
+            text-align: center; cursor: pointer; transition: all 0.3s ease; border: 3px solid transparent;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .evs-card:hover { transform: translateY(-4px) scale(1.03); border-color: var(--secondary); box-shadow: 0 8px 24px rgba(107,163,104,0.3); }
+        .evs-emoji { font-size: 2.6rem; line-height: 1; margin-bottom: 8px; }
+        .evs-title { font-size: 1.05rem; font-weight: 700; color: #4f6b3f; }
+        .evs-quiz-box { background: var(--card); border: 2px solid var(--border); border-radius: 18px; padding: 28px 24px; max-width: 560px; margin: 24px auto 0; }
         @media (max-width: 600px) {
             h1 { font-size: 1.7rem; }
             .quiz-options { grid-template-columns: 1fr; }
             .quiz-char { font-size: 3.5rem; }
+            .math-options { grid-template-columns: 1fr; }
+            .math-q { font-size: 2.2rem; }
         }
     </style>
 </head>
@@ -337,25 +421,41 @@
         <header>
             <div class="lab-icon">📚</div>
             <h1>BhashaLab</h1>
-            <p class="tagline">A linguistic laboratory for Tamil & Hindi — elementary scripts made simple</p>
+            <p class="tagline">A playful learning lab — Languages, Mathematics & Environmental Science</p>
             <div style="margin-top:14px;">
                 <a class="lang-btn" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;" href="/hindi-handwriting/index.html">✍️ Hindi Handwriting Lab</a>
             </div>
         </header>
 
-        <div class="lang-tabs">
-            <button class="lang-btn active" onclick="setLang('tamil')">தமிழ் Tamil</button>
-            <button class="lang-btn" onclick="setLang('hindi')">हिन्दी Hindi</button>
+        <div class="subject-tabs">
+            <button class="subject-btn active" id="sub-lang" onclick="setSubject('lang', this)">📖 Languages</button>
+            <button class="subject-btn" id="sub-math" onclick="setSubject('math', this)">🔢 Mathematics</button>
+            <button class="subject-btn" id="sub-evs" onclick="setSubject('evs', this)">🌍 EVS</button>
         </div>
 
-        <div class="mode-tabs">
-            <button class="mode-btn active" onclick="setMode('vowels')">Vowels</button>
-            <button class="mode-btn" onclick="setMode('consonants')">Consonants</button>
-            <button class="mode-btn" onclick="setMode('compounds')">Combos</button>
-            <button class="mode-btn" onclick="setMode('quiz')">Quiz</button>
+        <div id="lang-panel">
+            <div class="lang-tabs">
+                <button class="lang-btn active" onclick="setLang('tamil')">தமிழ் Tamil</button>
+                <button class="lang-btn" onclick="setLang('hindi')">हिन्दी Hindi</button>
+            </div>
+
+            <div class="mode-tabs">
+                <button class="mode-btn active" onclick="setMode('vowels')">Vowels</button>
+                <button class="mode-btn" onclick="setMode('consonants')">Consonants</button>
+                <button class="mode-btn" onclick="setMode('compounds')">Combos</button>
+                <button class="mode-btn" onclick="setMode('quiz')">Quiz</button>
+            </div>
+
+            <div id="content"></div>
         </div>
 
-        <div id="content"></div>
+        <div id="math-panel" class="hidden">
+            <div id="math-content"></div>
+        </div>
+
+        <div id="evs-panel" class="hidden">
+            <div id="evs-content"></div>
+        </div>
 
         <footer>
             <p>// BhashaLab — Learn through pattern, repetition, and play</p>
@@ -732,8 +832,254 @@
             window.speechSynthesis.speak(u);
         }
 
+        // ============ SUBJECT TABS ============
+        let currentSubject = 'lang';
+        function setSubject(sub, btn) {
+            currentSubject = sub;
+            document.querySelectorAll('.subject-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            document.getElementById('lang-panel').classList.toggle('hidden', sub !== 'lang');
+            document.getElementById('math-panel').classList.toggle('hidden', sub !== 'math');
+            document.getElementById('evs-panel').classList.toggle('hidden', sub !== 'evs');
+            if (sub === 'math') renderMath();
+            if (sub === 'evs') renderEvs();
+        }
+
+        // ============ MATH LAB ============
+        const mathLevels = {
+            basic:  { label: 'Basic',   max: 20,  multMax: 5,  divMax: 5  },
+            level2: { label: 'Level 2', max: 100, multMax: 10, divMax: 12 },
+        };
+        const mathState = { level: 'basic', op: 'mix', score: 0, streak: 0, best: 0, asked: 0, correct: 0, current: null, answered: false };
+
+        function rnd(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+        function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+        function genMathQuestion() {
+            const lvl = mathLevels[mathState.level];
+            let op = mathState.op;
+            if (op === 'mix') op = ['+', '-', '×', '÷'][Math.floor(Math.random() * 4)];
+            let a, b, ans;
+            if (op === '+') { a = rnd(1, lvl.max); b = rnd(1, lvl.max); ans = a + b; }
+            else if (op === '-') { a = rnd(1, lvl.max); b = rnd(1, a); ans = a - b; }
+            else if (op === '×') { a = rnd(1, lvl.multMax); b = rnd(1, lvl.multMax); ans = a * b; }
+            else { b = rnd(1, lvl.divMax); ans = rnd(1, lvl.divMax); a = b * ans; }
+            const opts = new Set([ans]);
+            let guard = 0;
+            while (opts.size < 4 && guard++ < 50) {
+                const spread = Math.max(2, Math.floor(ans / 2) + 2);
+                let off = ans + (Math.random() < 0.5 ? 1 : -1) * rnd(1, spread);
+                if (off >= 0 && off !== ans) opts.add(off);
+            }
+            while (opts.size < 4) opts.add(ans + opts.size + 1);
+            return { q: a + ' ' + op + ' ' + b, ans, opts: shuffle([...opts]) };
+        }
+
+        function renderMath() {
+            const p = document.getElementById('math-content');
+            const lvl = mathLevels[mathState.level];
+            const ops = [['mix', '🎲 Mix'], ['+', '➕ Add'], ['-', '➖ Subtract'], ['×', '✖️ Multiply'], ['÷', '➗ Divide']];
+            const levels = [['basic', '⭐ Basic'], ['level2', '🚀 Level 2']];
+            p.innerHTML = `
+                <div class="section-title">Mathematics Lab — ${lvl.label}</div>
+                <div class="section-sub">Solve the sums, earn stars, and level up! 🌟</div>
+                <div class="math-hud">
+                    <div class="hud-item">⭐ Score <b id="m-score">${mathState.score}</b></div>
+                    <div class="hud-item">🔥 Streak <b id="m-streak">${mathState.streak}</b></div>
+                    <div class="hud-item">✅ <b id="m-correct">${mathState.correct}</b>/<span id="m-asked">${mathState.asked}</span></div>
+                </div>
+                <div class="progress-wrap"><div class="progress-bar" id="m-progress"></div></div>
+                <div class="math-levels">
+                    ${levels.map(([k, lab]) => `<button class="math-btn ${mathState.level === k ? 'active' : ''}" onclick="setMathLevel('${k}')">${lab}</button>`).join('')}
+                </div>
+                <div class="math-ops">
+                    ${ops.map(([k, lab]) => `<button class="math-btn ${mathState.op === k ? 'active' : ''}" onclick="setMathOp('${k}')">${lab}</button>`).join('')}
+                </div>
+                <div class="math-question-card" id="m-card"></div>
+            `;
+            renderMathQuestion();
+        }
+
+        function renderMathQuestion() {
+            const c = document.getElementById('m-card');
+            if (!c) return;
+            if (mathState.asked >= 10) { renderMathComplete(); return; }
+            const q = genMathQuestion();
+            mathState.current = q; mathState.answered = false;
+            c.innerHTML = `
+                <div class="math-q">${q.q} = ?</div>
+                <div class="math-options">
+                    ${q.opts.map(o => `<button class="math-opt" onclick="answerMath(${o})">${o}</button>`).join('')}
+                </div>
+                <div class="math-feedback" id="m-fb"></div>
+            `;
+        }
+
+        function answerMath(val) {
+            if (mathState.answered) return;
+            mathState.answered = true;
+            mathState.asked++;
+            const correct = val === mathState.current.ans;
+            if (correct) { mathState.correct++; mathState.score += 10; mathState.streak++; if (mathState.score > mathState.best) mathState.best = mathState.score; }
+            else { mathState.streak = 0; }
+            const s = document.getElementById('m-score'); if (s) s.textContent = mathState.score;
+            const st = document.getElementById('m-streak'); if (st) st.textContent = mathState.streak;
+            const co = document.getElementById('m-correct'); if (co) co.textContent = mathState.correct;
+            const a = document.getElementById('m-asked'); if (a) a.textContent = mathState.asked;
+            document.querySelectorAll('.math-opt').forEach(b => {
+                const v = +b.textContent;
+                if (v === mathState.current.ans) b.classList.add('correct');
+                else if (v === val) b.classList.add('wrong');
+                b.style.pointerEvents = 'none';
+            });
+            const fb = document.getElementById('m-fb');
+            if (correct) { fb.textContent = ['🌟 Great!', '✨ Perfect!', '💡 Smart!', '🎉 Correct!'][rnd(0, 3)]; fb.className = 'math-feedback good'; }
+            else { fb.textContent = 'Answer: ' + mathState.current.ans; fb.className = 'math-feedback bad'; }
+            updateMathProgress();
+            setTimeout(() => renderMathQuestion(), 950);
+        }
+
+        function updateMathProgress() {
+            const bar = document.getElementById('m-progress');
+            if (bar) bar.style.width = (mathState.asked / 10 * 100) + '%';
+        }
+
+        function renderMathComplete() {
+            const c = document.getElementById('m-card');
+            if (!c) return;
+            const pct = Math.round((mathState.correct / mathState.asked) * 100);
+            const stars = pct === 100 ? '⭐⭐⭐' : pct >= 70 ? '⭐⭐' : pct >= 40 ? '⭐' : '🌱';
+            const nextOk = mathState.level === 'basic';
+            c.innerHTML = `
+                <div class="math-complete">
+                    <div>Round complete!</div>
+                    <div class="big">${stars}</div>
+                    <div class="quiz-question">You got ${mathState.correct} / ${mathState.asked} (${pct}%)</div>
+                    <div class="hud-item" style="margin:10px 0;">🏆 Best score: ${mathState.best}</div>
+                    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:14px;">
+                        ${nextOk ? '<button class="quiz-next" onclick="setMathLevel(\'level2\')">Go to Level 2 🚀</button>' : ''}
+                        <button class="quiz-next" onclick="restartMath()">Play Again ↻</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function setMathLevel(k) {
+            mathState.level = k; mathState.asked = 0; mathState.correct = 0; mathState.answered = false;
+            renderMath();
+        }
+        function setMathOp(k) {
+            mathState.op = k; mathState.asked = 0; mathState.correct = 0; mathState.answered = false;
+            renderMath();
+        }
+        function restartMath() {
+            mathState.asked = 0; mathState.correct = 0; mathState.answered = false;
+            renderMath();
+        }
+
+        // ============ EVS ============
+        const evsTopics = [
+            { e: '🌱', t: 'Plants', d: 'Plants make their own food using sunlight (photosynthesis) and give us oxygen and food.', f: 'A big tree can give enough oxygen for two people!' },
+            { e: '🐾', t: 'Animals & Homes', d: 'Animals live in habitats like forests, ponds, and deserts. Our pets live with us.', f: 'A frog can breathe through its skin!' },
+            { e: '💧', t: 'Water', d: 'Water is life. It travels as rain, rivers, and seas in the water cycle.', f: 'Only about 1% of Earth’s water is safe to drink.' },
+            { e: '🌬️', t: 'Air', d: 'Air is all around us though we cannot see it. Wind is moving air.', f: 'Air on top of Mount Everest is very thin.' },
+            { e: '☀️', t: 'The Sun', d: 'The Sun is a giant star giving light and heat that powers life on Earth.', f: 'Sunlight takes 8 minutes to reach Earth.' },
+            { e: '🌦️', t: 'Weather & Seasons', d: 'Weather changes daily (sunny, rainy, cold). Seasons are longer patterns.', f: 'India has a big monsoon rainy season.' },
+            { e: '🍎', t: 'Healthy Food', d: 'Fruits, vegetables, grains, and water keep our body strong.', f: 'Eating colourful food gives many vitamins.' },
+            { e: '♻️', t: 'Reduce, Reuse, Recycle', d: 'Save Earth by using less, using things again, and recycling old into new.', f: 'One recycled can powers a TV for 3 hours.' },
+            { e: '🚗', t: 'Transport', d: 'We travel by foot, cycle, bus, train, ship, or aeroplane.', f: 'A train can carry hundreds of people at once.' },
+            { e: '🌍', t: 'Our Earth', d: 'Earth is our home with land, water, and air. We must keep it clean.', f: 'Earth is the only planet we know with life.' },
+        ];
+        const evsQuizData = [
+            { q: 'What do plants use to make food?', o: ['Sunlight', 'Mobile', 'Shoes', 'Ice cream'], a: 'Sunlight' },
+            { q: 'Which gas do we breathe to live?', o: ['Oxygen', 'Helium', 'Smoke', 'Steam'], a: 'Oxygen' },
+            { q: 'What should we do to save Earth?', o: ['Recycle', 'Burn plastic', 'Waste water', 'Cut all trees'], a: 'Recycle' },
+            { q: 'What is moving air called?', o: ['Wind', 'Stone', 'Sugar', 'Cloud'], a: 'Wind' },
+            { q: 'What powers life on Earth?', o: ['The Sun', 'A battery', 'A lamp', 'The Moon'], a: 'The Sun' },
+        ];
+        let evsQuizState = null;
+
+        function renderEvs() {
+            const p = document.getElementById('evs-content');
+            p.innerHTML = `
+                <div class="section-title">Environmental Science — Elementary</div>
+                <div class="section-sub">Explore the world around you 🌿 Tap a card to learn more.</div>
+                <div class="evs-grid">
+                    ${evsTopics.map((t, i) => `<div class="evs-card" onclick="showEvsDetail(${i})"><div class="evs-emoji">${t.e}</div><div class="evs-title">${t.t}</div></div>`).join('')}
+                </div>
+                <div id="evs-detail"></div>
+                <div class="evs-quiz-box" id="evs-quiz">
+                    <div class="section-sub" style="margin-bottom:14px;">🧠 Test yourself</div>
+                    <button class="quiz-next" onclick="startEvsQuiz()">Start EVS Quiz</button>
+                </div>
+            `;
+        }
+
+        function showEvsDetail(i) {
+            const t = evsTopics[i];
+            document.getElementById('evs-detail').innerHTML = `
+                <div class="info-box"><h4>${t.e} ${t.t}</h4>
+                <p>${t.d}</p>
+                <p style="margin-top:8px;color:var(--secondary-light);"><b>Fun fact:</b> ${t.f}</p></div>`;
+        }
+
+        function startEvsQuiz() {
+            evsQuizState = { index: 0, score: 0, correct: null };
+            renderEvsQuiz();
+        }
+
+        function renderEvsQuiz() {
+            const box = document.getElementById('evs-quiz');
+            const item = evsQuizData[evsQuizState.index];
+            const opts = shuffle([...item.o]);
+            box.innerHTML = `
+                <div class="quiz-progress">
+                    <span>Question ${evsQuizState.index + 1} / ${evsQuizData.length}</span>
+                    <span class="quiz-score">Score: ${evsQuizState.score}</span>
+                </div>
+                <div class="quiz-question">${item.q}</div>
+                <div class="quiz-options">
+                    ${opts.map(o => `<button class="quiz-opt" onclick="answerEvs('${o.replace(/'/g, "\\'")}', '${item.a.replace(/'/g, "\\'")}')">${o}</button>`).join('')}
+                </div>
+                <button class="quiz-next hidden" id="evs-next" onclick="nextEvs()">Next →</button>
+            `;
+        }
+
+        function answerEvs(selected, correct) {
+            if (evsQuizState.correct !== null) return;
+            evsQuizState.correct = correct;
+            const buttons = document.querySelectorAll('#evs-quiz .quiz-opt');
+            buttons.forEach(btn => {
+                const t = btn.textContent;
+                if (t === correct) btn.classList.add('correct');
+                else if (t === selected) btn.classList.add('wrong');
+                btn.style.pointerEvents = 'none';
+            });
+            if (selected === correct) evsQuizState.score++;
+            document.querySelector('#evs-quiz .quiz-score').textContent = 'Score: ' + evsQuizState.score;
+            document.getElementById('evs-next').classList.remove('hidden');
+        }
+
+        function nextEvs() {
+            evsQuizState.index++;
+            evsQuizState.correct = null;
+            if (evsQuizState.index >= evsQuizData.length) {
+                const box = document.getElementById('evs-quiz');
+                const pct = Math.round((evsQuizState.score / evsQuizData.length) * 100);
+                const msg = pct >= 80 ? 'Nature Explorer! 🌟' : pct >= 50 ? 'Good! 🌿' : 'Keep learning! 💪';
+                box.innerHTML = `
+                    <div class="quiz-result">${msg}</div>
+                    <div class="quiz-char" style="font-size:3rem;">${evsQuizState.score} / ${evsQuizData.length}</div>
+                    <button class="quiz-next" onclick="startEvsQuiz()">Play Again ↻</button>`;
+            } else {
+                renderEvsQuiz();
+            }
+        }
+
         // ============ INIT ============
         render();
+        renderMath();
+        renderEvs();
     </script>
 </body>
 </html>
