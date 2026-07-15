@@ -102,8 +102,8 @@
 
   <div class="toolbar">
     <div class="seg" id="modeSeg">
-      <button data-mode="watch" class="active" onclick="setMode('watch')">👀 Watch</button>
-      <button data-mode="trace" onclick="setMode('trace')">✏️ Trace</button>
+      <button data-mode="watch" onclick="setMode('watch')">👀 Watch</button>
+      <button data-mode="trace" class="active" onclick="setMode('trace')">✏️ Trace</button>
       <button data-mode="copy" onclick="setMode('copy')">📝 Copy</button>
       <button data-mode="memory" onclick="setMode('memory')">🧠 Memory</button>
     </div>
@@ -141,7 +141,7 @@
       <div class="ctrlRow">
         <button class="btn tiny" onclick="undo()">↶ Undo</button>
         <button class="btn tiny" onclick="clearCanvas()">🗑 Clear</button>
-        <button class="btn primary" onclick="evaluate()">✅ Check my writing</button>
+        <button class="btn primary" onclick="checkWriting()">✅ Check my writing</button>
       </div>
       <div class="result" id="result" style="display:none;"></div>
       <div class="legend">
@@ -214,7 +214,7 @@ const CFG = {
 
 /* ---------- State ---------- */
 const S = {
-  mode:'watch', diff:'easy', idx:0,
+  mode:'trace', diff:'easy', idx:0,
   strokes:[], drawing:false, cur:null,
   db:{}, evaluated:false
 };
@@ -440,8 +440,8 @@ function tiltOf(m,size){
 }
 
 /* ---------- Evaluation ---------- */
-function evaluate(){
-  if(S.mode==='watch'){ toast('Watch mode: just observe the letter 👀'); return; }
+function checkWriting(){
+  if(S.mode==='watch'){ setMode('copy'); toast('Switched to Copy mode — draw the letter, then check! ✏️'); return; }
   if(S.strokes.length===0){ toast('Draw the letter first ✏️'); return; }
 
   const size=CFG.maskSize;
@@ -755,7 +755,7 @@ function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg
   resizeCanvas();
   refreshHUD();
   setChar(13); // start on क (index of 'क')
-  setMode('watch');
+  setMode('trace');
 })();
 </script>
 </body>
