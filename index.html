@@ -698,27 +698,22 @@
         }
 
         // ============ SPEECH ============
-        let cachedVoices = [];
-        function loadVoices() {
-            cachedVoices = window.speechSynthesis.getVoices();
-        }
-        if ('speechSynthesis' in window) {
-            loadVoices();
-            window.speechSynthesis.onvoiceschanged = loadVoices;
+        // Primary: Google Translate TTS streams authentic Tamil/Hindi audio
+        // (no API key needed). Fallback: OS Web Speech with native lang code.
+        function speak(text, lang) {
+            const tl = lang === 'tamil' ? 'ta' : 'hi';
+            const url = 'https://translate.google.com/translate_tts?ie=UTF-8&q='
+                + encodeURIComponent(text) + '&tl=' + tl + '&client=tw-ob';
+            const audio = new Audio(url);
+            audio.play().catch(() => webSpeechFallback(text, lang));
         }
 
-        function speak(text, lang) {
+        function webSpeechFallback(text, lang) {
             if (!('speechSynthesis' in window)) return;
-            // Speak the ACTUAL native script character so the engine
-            // pronounces the real alphabet, not the English spelling.
             const langCode = lang === 'tamil' ? 'ta-IN' : 'hi-IN';
             const u = new SpeechSynthesisUtterance(text);
             u.lang = langCode;
             u.rate = 0.75;
-            // Prefer a voice that natively speaks the language
-            const voice = cachedVoices.find(v => v.lang === langCode)
-                || cachedVoices.find(v => v.lang && v.lang.startsWith(lang === 'tamil' ? 'ta' : 'hi'));
-            if (voice) u.voice = voice;
             window.speechSynthesis.cancel();
             window.speechSynthesis.speak(u);
         }
